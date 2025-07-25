@@ -1,0 +1,7 @@
+gcloud run deploy mwp-frontend-service \
+  --image us-central1-docker.pkg.dev/custom-blade-466012-h5/mwp-repo/mwp-frontend \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory=4Gi \
+  --set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=custom-blade-466012-h5-955050a2f3fd.json
