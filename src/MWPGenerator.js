@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Card, Typography, Radio, RadioGroup, FormControlLabel, Button, CircularProgress, TextField, Alert } from '@mui/material';
 
-const BACKEND_URL = 'https://mwp-backend-service-108318652578.us-central1.run.app/generate';
+const BACKEND_URL = 'http://35.237.155.50:8080/generate';
 
 export default function MWPGenerator() {
   const [language, setLanguage] = useState('Sinhala');
