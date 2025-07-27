@@ -67,7 +67,7 @@ def load_models():
         
         try:
             model = MBartForConditionalGeneration.from_pretrained(local_path)
-            tokenizer = MBart50TokenizerFast.from_pretrained(local_path)
+            tokenizer = MBart50Tokenizer.from_pretrained(local_path)
             
             model.to(device)
             print(f"Model '{model_key}' successfully moved to {device}.")
