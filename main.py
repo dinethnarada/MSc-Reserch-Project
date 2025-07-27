@@ -6,6 +6,9 @@ from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from google.cloud import storage
 import os
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"--- Using device: {device} ---")
+
 # --- Configuration (Simplified to two mixed-domain models) ---
 BUCKET_NAME = "msc-research-mwp-dataset-v1"
 # IMPORTANT: You need to create and save these mixed-domain models first
@@ -65,6 +68,10 @@ def load_models():
         try:
             model = MBartForConditionalGeneration.from_pretrained(local_path)
             tokenizer = MBart50TokenizerFast.from_pretrained(local_path)
+            
+            model.to(device)
+            print(f"Model '{model_key}' successfully moved to {device}.")
+
             models[model_key] = {"model": model, "tokenizer": tokenizer}
             print(f"Successfully loaded model: {model_key}")
         except Exception as e:
@@ -103,6 +110,7 @@ def generate_mwp(request: GenerationRequest):
         tokenizer.src_lang = lang_code
         
         inputs = tokenizer(request.seed_text, return_tensors="pt", padding=True, truncation=True, max_length=200)
+        inputs = {k: v.to(device) for k, v in inputs.items()}
         forced_bos_token_id = tokenizer.lang_code_to_id[lang_code]
 
         with torch.no_grad():
