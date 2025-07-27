@@ -110,6 +110,7 @@ def generate_mwp(request: GenerationRequest):
         tokenizer.src_lang = lang_code
         
         inputs = tokenizer(request.seed_text, return_tensors="pt", padding=True, truncation=True, max_length=200)
+        inputs = {k: v.to(device) for k, v in inputs.items()}
         forced_bos_token_id = tokenizer.lang_code_to_id[lang_code]
 
         with torch.no_grad():
