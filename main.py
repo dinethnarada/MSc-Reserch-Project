@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import torch
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
+from transformers import MBartForConditionalGeneration, MBart50Tokenizer
 from google.cloud import storage
 import os
 
@@ -110,13 +110,12 @@ def generate_mwp(request: GenerationRequest):
         tokenizer.src_lang = lang_code
         
         inputs = tokenizer(request.seed_text, return_tensors="pt", padding=True, truncation=True, max_length=200)
-        inputs = {k: v.to(device) for k, v in inputs.items()}
         forced_bos_token_id = tokenizer.lang_code_to_id[lang_code]
 
         with torch.no_grad():
             generated_tokens = model.generate(
                 **inputs,
-                max_length=256,
+                max_length=200,
                 do_sample=True,
                 temperature=1.0,
                 num_return_sequences=1,
