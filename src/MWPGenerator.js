@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Card, Typography, Radio, RadioGroup, FormControlLabel, Button, CircularProgress, TextField, Alert } from '@mui/material';
+const URL = process.env.REACT_APP_BACKEND_URL;
 
-const BACKEND_URL = 'http://35.237.155.50:8080/generate';
+const BACKEND_URL = `http://${URL}:8080/generate`;
 
 export default function MWPGenerator() {
   const [language, setLanguage] = useState('Sinhala');
